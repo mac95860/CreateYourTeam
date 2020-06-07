@@ -18,14 +18,10 @@ class Employee {
         return this.id;
     }
 
-    getRole(role){
-       if(role) {
-       return role
-       } else {
-           return "Employee"
-       }
+    getRole(){
+      
+           return "Employee";
     }
-
 }
 
 module.exports = Employee;

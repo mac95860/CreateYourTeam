@@ -4,7 +4,7 @@ const Employee = require("../lib/Employee");
 delete Employee['getRole'];
 
 class Manager extends Employee {
-    constructor(officeNumber) {
+    constructor(name, id, email, officeNumber) {
         super(name, id, email)
         this.officeNumber = officeNumber;
     }
@@ -12,9 +12,10 @@ class Manager extends Employee {
     getOfficeNumber() {
         return this.officeNumber;
     }
-}
-const managerRole = "Manager";
 
-const manager = new Manager()
-manager.getRole(managerRole);
+    getRole() {
+        return "Manager"
+    }
+}
+
 module.exports = Manager;
