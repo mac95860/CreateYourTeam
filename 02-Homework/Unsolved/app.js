@@ -5,31 +5,17 @@ const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
 
+
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
-fs.mkdirSync(OUTPUT_DIR);
+//fs.mkdirSync(OUTPUT_DIR);
 
 const render = require("./lib/htmlRenderer");
 
 function askQuestions () {
-    inquirer
+   return inquirer
         .prompt([
-            {
-                type: 'input',
-                message: 'Enter name of employee',
-                name: 'name'
-            },
-            {
-                type: 'input',
-                message: 'Enter employee id',
-                name: 'id'
-            },
-            {
-                type: 'input',
-                message: 'Enter employee email',
-                name: 'email'
-            },
             {
                 type: 'list',
                 message: 'What type of employee would you like to enter?',
@@ -38,52 +24,111 @@ function askQuestions () {
             }
 
         ]).then((res) => { 
-            getEmployees(res);
-            anotherEmployee();
+            switch(res.choice) {
+                case 'Manager':
+                    addManager();
+                    break;
+                case 'Engineer':
+                    addEngineer();
+                    break;
+                case 'Intern':
+                    addIntern()
+                    break;
+            }
         });
-}
-
-askQuestions();
+};
 
 const newTeam = [];
 
-function getEmployees(res) {
-    if (res.choice === "Manager") {
-        inquirer.prompt([
-            {
-                type: 'input',
-                message: 'Give manager office number',
-                name: 'officeNumber'
-            }
-        ]).then(() => {
+function addManager() {
+    
+    return inquirer.prompt([
+        {
+            type: 'input',
+            message: 'Enter first and last name',
+            name: "name"
+        },
+        {
+            type: 'input',
+            message: 'What is this person\'s id number',
+            name: 'id'
+        },
+        {
+            type: 'input',
+            message: 'Enter email address',
+            name: 'email'
+        },
+        {
+            type: 'input',
+            message: 'Give manager office number',
+            name: 'officeNumber'
+        }
+        ]).then((res) => {
             const engineer = new Engineer(res.name, res.id, res.email, res.officeNumber)
             newTeam.push(engineer);
+            anotherEmployee();
 
-        })
-    } else if (res.choice === "Intern") {
-        inquirer.prompt([
-            {
-                type: 'input',
-                message: 'Enter the name of the school the intern attends',
-                name: 'school'
-            }
-        ]).then(() => {
-            const intern = new Intern(res.name, res.id, res.email, res.school)
-            newTeam.push(intern)
-        })
-    } else if (res.choice === "Engineer") {
-        inquirer.prompt([
-            {
-                type: 'input',
-                message: 'Enter the employee\'s github',
-                name: 'github'
-            }
-        ]).then(() => {
+        });
+};
+
+function addIntern () {
+    return inquirer.prompt([
+        {
+            type: 'input',
+            message: 'Enter first and last name',
+            name: "name"
+        },
+        {
+            type: 'input',
+            message: 'What is this person\'s id number',
+            name: 'id'
+        },
+        {
+            type: 'input',
+            message: 'Enter email address',
+            name: 'email'
+        },
+        {
+            type: 'input',
+            message: 'Enter the name of the school the intern attends',
+            name: 'school'
+        }
+        ]).then((res) => {
+            const intern = new Intern(res.name, res.id, res.email, res.school);
+            newTeam.push(intern);
+            anotherEmployee();
+        });
+};
+
+function addEngineer () {
+    return inquirer.prompt([
+        {
+            type: 'input',
+            message: 'Enter first and last name',
+            name: "name"
+        },
+        {
+            type: 'input',
+            message: 'What is this person\'s id number',
+            name: 'id'
+        },
+        {
+            type: 'input',
+            message: 'Enter email address',
+            name: 'email'
+        },
+        {
+            type: 'input',
+            message: 'Enter the employee\'s github',
+            name: 'github'
+        }
+        ]).then((res) => {
             const engineer = new Engineer(res.name, res.id, res.email, res.github)
             newTeam.push(engineer);
+            anotherEmployee();
         })
-    }
-}
+};
+
 
 function anotherEmployee (){
     inquirer.prompt([
@@ -92,12 +137,23 @@ function anotherEmployee (){
             message: 'Would you like to add another employee?',
             name: 'chooseNewEmployee'
         }
-    ]).then(val => {
-        if(val){
-            askQuestions();
+    ]).then((res) => {
+        if(res){
+            renderTeam();
+        } else {
+            return "goodbye!"
         }
-    })
-}
+    });
+};
+
+
+function renderTeam() {
+    fs.writeFileSync(outputPath, render(newTeam), 'utf8');
+    console.log('Team has been created');
+};
+
+askQuestions();
+//renderTeam();
 
 
 
