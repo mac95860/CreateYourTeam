@@ -9,8 +9,6 @@ const fs = require("fs");
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
-//fs.mkdirSync(OUTPUT_DIR);
-
 const render = require("./lib/htmlRenderer");
 
 function askQuestions () {
@@ -63,12 +61,11 @@ function addManager() {
             message: 'Give manager office number',
             name: 'officeNumber'
         }
-        ]).then((res) => {
-            const engineer = new Engineer(res.name, res.id, res.email, res.officeNumber)
-            newTeam.push(engineer);
-            anotherEmployee();
-
-        });
+    ]).then((res) => {
+        const engineer = new Engineer(res.name, res.id, res.email, res.officeNumber)
+        newTeam.push(engineer);
+        anotherEmployee();
+    });
 };
 
 function addIntern () {
@@ -138,10 +135,12 @@ function anotherEmployee (){
             name: 'chooseNewEmployee'
         }
     ]).then((res) => {
-        if(res){
+        if(res.chooseNewEmployee){
+            askQuestions();
             renderTeam();
         } else {
-            return "goodbye!"
+            renderTeam();
+            console.log("goodbye!");
         }
     });
 };
@@ -153,7 +152,7 @@ function renderTeam() {
 };
 
 askQuestions();
-//renderTeam();
+
 
 
 
