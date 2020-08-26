@@ -1,14 +1,29 @@
-Create Your Team
+# Create Your Team
 
-Description:
-    The user will answer a series of questions about the members of their team. They will choose between Manager, Intern, and Engineer. 
-    Based on the response, the user will be asked for more info about the employee. Each class of employee will be displayed onto a webpage.
-    
-Usage:
-    run the application in the node console. The console will then prompt you to answer all questions. Once all employees are added, run the
-    app on a local server.
-    
-Installation:
-    jest: npm i jest
-    inquirer npm i inquierer
+## User Story
+
+I want a program that allows me to create and add new members of my team with their info to display in browser
+
+## Installation:
+
+npm i inquirer
+npm i path
+
+## Features
+
+- The user is prompted to enter the information for a new employee
+- More questions will be asked based on what the new employee's role will be
+- Once the employee is created, a card displaying their info will appear in browser
+
+## Technologies/Tools Used
+
+* JavaScript
+* HTML
+* Bootstrap
+* TDD
+* Node.js
+
+## Contributors
+
+Michael Cervantes
     
